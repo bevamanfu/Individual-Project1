@@ -28,6 +28,9 @@ public class Node  {
         this.Stops = stops;
     }
 
+    public Node(Node stateNode, String destinationAirportCode, String airline_code, int stops) {
+    }
+
     /**
      * accesor method for airport code
      * The airport code represents the state of the node
@@ -74,31 +77,34 @@ public class Node  {
      * @return flightList
      */
     public ArrayList<String> solutionPath(){
-        Node nextNode = this;
-        // Initializing ArrayLists AirportCodeList,AirlineCodeList,flightList
-        // to store
+
+        // Initializing ArrayLists AirportCodeList,AirlineCodeList,flightList stops
+
         ArrayList<String> AirportCodeList= new ArrayList<String>();
         ArrayList<String> AirlineCodeList= new ArrayList<String>();
         ArrayList<String> flightList= new ArrayList<String>();
-        int countStops = 0;
+        ArrayList<Integer> StopsList= new ArrayList<Integer>();
+
+        Node nextNode = this;
 
 
         while(nextNode != null){
             AirportCodeList.add(nextNode.getAirportCode());
             AirlineCodeList.add(nextNode.getAirlineCode());
-            countStops++;
+            StopsList.add(nextNode.getStops());
 
             nextNode = nextNode.Parent;
         }
 
         Collections.reverse(AirportCodeList);
         Collections.reverse(AirlineCodeList);
+        Collections.reverse(StopsList);
 
 
         // traversing through the AirlineCodeList and appending the solution sentence to the flightList
         for( int i= 0; i < AirlineCodeList.size();i++){
             String solutionSentence = i+1+ ","+ AirlineCodeList.get(i+1)+" from "+
-                    AirportCodeList.get(i)+" to " + AirportCodeList.get(i +1)+countStops+
+                    AirportCodeList.get(i)+" to " + AirportCodeList.get(i +1)+ " " +StopsList+
                     "stops.";
             flightList.add(solutionSentence);
 
